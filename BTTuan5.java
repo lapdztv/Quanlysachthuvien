@@ -1,3 +1,4 @@
+package Quanlysachthuvien;
 import java.util.Scanner;
 
 public class BTTuan5 {
@@ -24,39 +25,29 @@ public class BTTuan5 {
             System.out.print("Nhap lua chon: ");
             chon = sc.nextInt();
             sc.nextLine();
-
             switch (chon) {
                 case 1:
                     System.out.print("Nhap so sach: ");
                     int them = sc.nextInt();
                     sc.nextLine();
-
                     for (int i = 0; i < them; i++) {
                         System.out.println("\nNhap sach thu " + (n + 1));
-
                         System.out.print("Ma sach: ");
                         maSach[n] = sc.nextLine();
-
                         System.out.print("Ten sach: ");
                         tenSach[n] = sc.nextLine();
-
                         System.out.print("Tac gia: ");
                         tacGia[n] = sc.nextLine();
-
                         System.out.print("Nam xuat ban: ");
                         namXB[n] = sc.nextInt();
-
                         System.out.print("Don gia: ");
                         donGia[n] = sc.nextDouble();
-
                         System.out.print("So luong: ");
                         soLuong[n] = sc.nextInt();
                         sc.nextLine();
-
                         n++;
                     }
                     break;
-
                 case 2:
                     for (int i = 0; i < n; i++) {
                         System.out.println("\nMa sach: " + maSach[i]);
@@ -71,22 +62,17 @@ public class BTTuan5 {
                 case 3:
                     int tongSoLuong = 0;
                     double tongGiaTri = 0;
-
                     for (int i = 0; i < n; i++) {
                         tongSoLuong += soLuong[i];
                         tongGiaTri += donGia[i] * soLuong[i];
                     }
-
                     System.out.println("Tong so luong sach: " + tongSoLuong);
                     System.out.println("Tong gia tri sach: " + tongGiaTri);
 break;
-
                 case 4:
                     System.out.print("Nhap ma sach can tim: ");
                     String maTim = sc.nextLine();
-
                     boolean timThay = false;
-
                     for (int i = 0; i < n; i++) {
                         if (maSach[i].equals(maTim)) {
                             System.out.println("Ma sach: " + maSach[i]);
@@ -95,20 +81,16 @@ break;
                             System.out.println("Nam xuat ban: " + namXB[i]);
                             System.out.println("Don gia: " + donGia[i]);
                             System.out.println("So luong: " + soLuong[i]);
-
                             timThay = true;
                         }
                     }
-
                     if (timThay == false) {
                         System.out.println("Khong tim thay sach!");
                     }
                     break;
-
                 case 5:
                     System.out.println("Thoat chuong trinh!");
                     break;
-
                 default:
                     System.out.println("Lua chon khong hop le!");
             }
