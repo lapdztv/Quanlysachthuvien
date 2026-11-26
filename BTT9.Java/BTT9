@@ -1,0 +1,170 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Sach {
+    public String maSach;
+    public String ngayNhap;
+    public double donGia;
+    public int soLuong;
+    public String nhaXuatban;
+
+    public Sach() {}
+
+    public Sach(String maSach, String ngayNhap, double donGia, int soLuong, String nhaXuatban) {
+        this.maSach = maSach;
+        this.ngayNhap = ngayNhap;
+        this.donGia = donGia;
+        this.soLuong = soLuong;
+        this.nhaXuatban = nhaXuatban;
+    }
+
+    public double getdonGia() {
+        return donGia;
+    }
+
+    public int getsoLuong() {
+        return soLuong;
+    }
+
+    public void nhap(Scanner sc) {
+        System.out.println("Nhap ma sach: ");
+        maSach = sc.nextLine();
+        System.out.println("Nhap ngay nhap: ");
+        ngayNhap = sc.nextLine();
+        System.out.println("Nhap don gia: ");
+        donGia = Double.parseDouble(sc.nextLine());
+        System.out.println("Nhap so luong: ");
+        soLuong = Integer.parseInt(sc.nextLine());
+        System.out.println("Nhap nha xuat ban: ");
+        nhaXuatban = sc.nextLine();
+    }
+
+    public void xuat() {
+        System.out.println("Ma sach: " + maSach);
+        System.out.println("Ngay nhap: " + ngayNhap);
+        System.out.println("Don gia: " + donGia);
+        System.out.println("So luong: " + soLuong);
+        System.out.println("Nha xuat ban: " + nhaXuatban);
+    }
+
+    public double tinhThanhTien() {
+        return 0;
+    }
+}
+
+class SachGiaoKhoa extends Sach {
+    public String tinhTrang;
+
+    public SachGiaoKhoa() {
+        super();
+    }
+
+    public SachGiaoKhoa(String maSach, String ngayNhap, double donGia, int soLuong, String nhaXuatban, String tinhTrang) {
+        super(maSach, ngayNhap, donGia, soLuong, nhaXuatban);
+        this.tinhTrang = tinhTrang;
+    }
+
+    @Override
+    public void nhap(Scanner sc) {
+        super.nhap(sc);
+        System.out.println("Nhap tinh trang (moi/cu): ");
+        tinhTrang = sc.nextLine();
+    }
+
+    @Override
+    public double tinhThanhTien() {
+        if (tinhTrang.equalsIgnoreCase("moi")) {
+            return soLuong * donGia;
+        } else {
+            return soLuong * donGia * 0.5;
+        }
+    }
+
+    @Override
+    public void xuat() {
+        super.xuat();
+        System.out.println("Tinh trang: " + tinhTrang);
+        System.out.println("Thanh tien: " + tinhThanhTien());
+    }
+}
+
+class SachThamKhao extends Sach {
+    public double thue;
+
+    public SachThamKhao() {
+        super();
+    }
+
+    public SachThamKhao(String maSach, String ngayNhap, double donGia, int soLuong, String nhaXuatban, double thue) {
+        super(maSach, ngayNhap, donGia, soLuong, nhaXuatban);
+        this.thue = thue;
+    }
+
+    @Override
+    public void nhap(Scanner sc) {
+        super.nhap(sc);
+        System.out.println("Nhap thue: ");
+        thue = Double.parseDouble(sc.nextLine());
+    }
+
+    @Override
+    public double tinhThanhTien() {
+        return soLuong * donGia + thue;
+    }
+
+    @Override
+    public void xuat() {
+        super.xuat();
+        System.out.println("Thue: " + thue);
+        System.out.println("Thanh tien: " + tinhThanhTien());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Sach> ds = new ArrayList<>();
+
+        System.out.println("Nhap so luong sach: ");
+        int n = Integer.parseInt(sc.nextLine());
+
+        for (int i = 0; i < n; i++) {
+            System.out.println("Chon loai (1: Sach giao khoa, 2: Sach tham khao): ");
+            int loai = Integer.parseInt(sc.nextLine());
+            Sach s = (loai == 1) ? new SachGiaoKhoa() : new SachThamKhao();
+            s.nhap(sc);
+            ds.add(s);
+        }
+
+        System.out.println("=== DANH SACH SACH ===");
+        double tongSGK = 0, tongSTK = 0, tongDonGiaSTK = 0;
+        int demSTK = 0;
+
+        for (Sach s : ds) {
+            s.xuat();
+            System.out.println("-----------------");
+            if (s instanceof SachGiaoKhoa) {
+                tongSGK += s.tinhThanhTien();
+            } else if (s instanceof SachThamKhao) {
+                tongSTK += s.tinhThanhTien();
+                tongDonGiaSTK += s.getdonGia();
+                demSTK++;
+            }
+        }
+
+        System.out.println("Tong thanh tien SGK: " + tongSGK);
+        System.out.println("Tong thanh tien STK: " + tongSTK);
+        System.out.println("Trung binh don gia STK: " + (demSTK > 0 ? tongDonGiaSTK / demSTK : 0));
+
+        System.out.println("Nhap nha xuat ban X can tim: ");
+        String nxbX = sc.nextLine();
+        System.out.println("=== SGK CUA NXB " + nxbX + " ===");
+        for (Sach s : ds) {
+            if (s instanceof SachGiaoKhoa && s.nhaXuatban.equalsIgnoreCase(nxbX)) {
+                s.xuat();
+                System.out.println("-----------------");
+            }
+        }
+        sc.close();
+    }
+}
